@@ -103,6 +103,7 @@ As utilidades acima são acionadas por combinações de teclas, nesse primeiro m
 ✨ **QWEN** - https://lmstudio.ai/models/qwen/qwen3-vl-4b  
 📌 **PYCHARM** - https://www.jetbrains.com/pt-br/pycharm/  
 📌 **VSCODE** - https://code.visualstudio.com/
+
 📌 **PYTHON**https://www.python.org/
   -
 
