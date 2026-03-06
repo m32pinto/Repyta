@@ -1,4 +1,5 @@
 # repita.py
+# Script simples para iniciar a interface de botões
 
 from interface import criar_interface
 
