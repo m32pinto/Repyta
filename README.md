@@ -44,4 +44,14 @@
    >
    > _Salvo exigência legal ou acordo por escrito, o software é distribuído "COMO ESTÁ", sem garantias ou condições de qualquer tipo._
 
+7. **🐧 Instalação no Linux**
 
+    >Baixe o executável `Repyta` na seção de Releases.
+    
+    >Abra o terminal na pasta do download.
+    
+    >Dê permissão de execução, e execute:
+   
+    ```bash
+       chmod +x Repyta
+       ./Repyta
