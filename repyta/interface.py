@@ -7,7 +7,7 @@ import indice
 import tkinter as tk
 from tkinter import messagebox, filedialog
 import json
-from indice import botoes, TEXTOS_PARA_COLAR,ROTULOS_POR_BOTAO, proxima_chave, criar_callback_com_chave, get_estado_automacoes, set_estado_automacoes
+from indice import proxima_chave, criar_callback_com_chave, set_estado_automacoes
 
 # ✅ Variáveis para sistema de rótulos
 rotulo_filtro_atual = None  # None = mostra todos
@@ -257,8 +257,27 @@ def criar_interface():
 
     janela = tk.Tk()
     janela.title("Repyta")
-    janela.geometry("500x800")
-    janela.resizable(False, False)
+
+    # Obter dimensões da tela
+    largura_tela = janela.winfo_screenwidth()
+    altura_tela = janela.winfo_screenheight()
+
+    # Definir dimensões da janela (90% da tela com limites máximos)
+    largura_janela = min(int(largura_tela * 0.70), 500)  # Máximo 600px de largura
+    altura_janela = min(int(altura_tela * 0.85), 700)  # Máximo 700px de altura
+
+    # Calcular posição para centralizar a janela
+    pos_x = int((largura_tela - largura_janela) / 2)
+    pos_y = int((altura_tela - altura_janela) / 2)
+
+    # Aplicar geometria dinâmica e centralizada
+    janela.geometry(f"{largura_janela}x{altura_janela}+{pos_x}+{pos_y}")
+
+    # Permitir redimensionamento (opcional - o usuário pode ajustar se precisar)
+    janela.resizable(True, True)
+
+    # Definir tamanho mínimo para não ficar muito pequena
+    janela.minsize(400, 600)
 
     # Frame principal com padding
     frame_principal = tk.Frame(janela, padx=30, pady=30)
