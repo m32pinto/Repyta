@@ -8,6 +8,7 @@ import tkinter as tk
 from tkinter import messagebox, filedialog
 import json
 from indice import proxima_chave, criar_callback_com_chave, set_estado_automacoes
+import webbrowser
 
 # ✅ Variáveis para sistema de rótulos
 rotulo_filtro_atual = None  # None = mostra todos
@@ -82,6 +83,12 @@ def salvar_texto_para_area_de_transferencia():
     messagebox.showinfo("Sucesso", f"Botão '{nome_botao}' adicionado com sucesso!")
     atualizar_painel_botoes()
     voltar_para_painel_de_botoes()
+
+def abrir_link_doacao():
+    """Abre o link de doação no navegador padrão"""
+    url = indice.BOTAO_DOACAO.get("url")
+    if url:
+        webbrowser.open(url)
 
 
 # =====================================================#
@@ -408,7 +415,7 @@ def criar_interface():
     # Mensagem de instrução (abaixo do rodapé)
     instrucao = tk.Label(
         frame_principal,
-        text="Ter tempo é possuir o bem mais precioso para quem aspira a grandes coisas.",
+        text="Marcos - Ter tempo é possuir o bem mais precioso para quem aspira a grandes coisas.",
         font=("Arial", 7, "italic"),
         fg="#666"
     )
@@ -650,7 +657,7 @@ def mostrar_tela(nome_tela):
 
 
 def atualizar_painel_botoes():
-    """Atualiza o grid de botões no painel principal (com filtro de rótulos)"""
+    """Atualiza o grid de botões no painel principal (com botão de doação persistente)"""
     global rotulo_filtro_atual
 
     # Limpa botões existentes
@@ -662,21 +669,44 @@ def atualizar_painel_botoes():
     frame_botoes.columnconfigure(2, weight=0)
     frame_botoes.columnconfigure(3, weight=1)
 
-    from indice import botoes as botoes_atualizados, ROTULOS_POR_BOTAO
+    from indice import botoes as botoes_atualizados, ROTULOS_POR_BOTAO, BOTAO_DOACAO
 
-    # ✅ Filtra botões por rótulo se necessário
+    # ✅ FILTRO: ignora o botão de doação da lista normal (ele será renderizado separadamente)
     botoes_para_exibir = []
     for nome, callback in botoes_atualizados:
+        # Pula se for o botão de doação (evita duplicação)
+        if nome == BOTAO_DOACAO["nome"]:
+            continue
         chave = getattr(callback, 'chave', None)
         if rotulo_filtro_atual and chave:
             rotulos_do_botao = ROTULOS_POR_BOTAO.get(chave, [])
             if rotulo_filtro_atual not in rotulos_do_botao:
-                continue  # Pula botão que não tem o rótulo filtrado
+                continue
         botoes_para_exibir.append((nome, callback, chave))
 
-    # Adiciona botões filtrados
+    # 🔹 RENDERIZA O BOTÃO DE DOAÇÃO SEMPRE COMO PRIMEIRO
+    btn_doacao = tk.Button(
+        frame_botoes,
+        text=BOTAO_DOACAO["nome"],
+        command=abrir_link_doacao,
+        width=18,
+        height=2,
+        bg=BOTAO_DOACAO["cor"],  # Cor diferenciada
+        fg="white",
+        font=("Arial", 9, "bold"),
+        relief=tk.RAISED,
+        cursor="hand2",
+        wraplength=160,
+        justify="center",
+        anchor="center",
+        padx=8, pady=4
+    )
+    btn_doacao.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
+    # ❌ Sem menu contextual: botão de doação não pode ser editado/apagado
+
+    # ✅ Adiciona os botões normais (a partir da linha 1, para não sobrepor o de doação)
     for i, (texto, comando, chave) in enumerate(botoes_para_exibir):
-        linha = i // 2
+        linha = (i // 2) + 1  # +1 para começar após o botão de doação
         coluna_grid = 1 if (i % 2 == 0) else 2
 
         btn = tk.Button(
@@ -700,9 +730,9 @@ def atualizar_painel_botoes():
         if chave:
             btn.bind("<Button-3>", lambda e, ch=chave, nm=texto: mostrar_menu_contextual(e, ch, nm))
 
-    # Posiciona o botão "+"
-    indice_botao_mais = len(botoes_para_exibir)
-    linha_mais = indice_botao_mais // 2
+    # 🔹 Posiciona o botão "+" após os botões normais
+    indice_botao_mais = len(botoes_para_exibir) + 1  # +1 por causa do botão de doação
+    linha_mais = (indice_botao_mais // 2) + 1
     coluna_mais = 1 if (indice_botao_mais % 2 == 0) else 2
 
     btn_adicionar = tk.Button(

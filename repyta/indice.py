@@ -2,6 +2,7 @@
 import pyautogui
 import pyperclip
 
+
 # Variáveis globais
 botoes = [
     ("Exemplo 1", lambda: colar_texto('exemplo_1'))
@@ -9,6 +10,15 @@ botoes = [
 
 TEXTOS_PARA_COLAR = {
     'exemplo_1': """Bem vindo ao Repyta"""
+}
+
+# =====================================================#
+## Configuração do Botão de Doação Persistente ##
+# =====================================================#
+BOTAO_DOACAO = {
+    "nome": "Apoie com um cafezinho ‧₊˚ ⋅  ☕︎ 𓎩 ‧₊˚",
+    "url": "https://portfoliodomarcos.com.br/blog-page_apoio.html",  # 🔁 Substitua pelo seu link real
+    "cor": "#9C27B0"  # Roxo diferenciado
 }
 
 # ✅ NOVO: Dicionário para armazenar rótulos por chave de botão
