@@ -7,7 +7,7 @@ import indice
 import tkinter as tk
 from tkinter import messagebox, filedialog
 import json
-from indice import proxima_chave, criar_callback_com_chave, set_estado_automacoes
+from indice import proxima_chave, criar_callback_com_chave, set_estado_automacoes, TEXTOS_PARA_COLAR, ROTULOS_POR_BOTAO, botoes
 import webbrowser
 
 # ✅ Variáveis para sistema de rótulos
