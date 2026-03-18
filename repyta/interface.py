@@ -284,7 +284,7 @@ def criar_interface():
     janela.resizable(True, True)
 
     # Definir tamanho mínimo para não ficar muito pequena
-    janela.minsize(400, 600)
+    janela.minsize(400, 770)
 
     # Frame principal com padding
     frame_principal = tk.Frame(janela, padx=30, pady=30)
